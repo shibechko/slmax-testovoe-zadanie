@@ -59,4 +59,7 @@ class User {
         return (int) date("Y", $cur - $bday) - 1970;
     }
 
+    public static function getGender($gender) {
+        return $gender ? 'муж' : 'жен';
+    }
 }
