@@ -62,4 +62,15 @@ class User {
     public static function getGender($gender) {
         return $gender ? 'муж' : 'жен';
     }
+
+    public function format(bool $age=false, bool $gender=false) {
+        $user = new stdClass();
+        $user->id = $this->id;
+        $user->name = $this->name;
+        $user->surname = $this->surname;
+        $user->birthday = $age ? $this->getAge($this->birthday) : $this->birthday;
+        $user->gender = $gender ? $this->getGender($this->gender) : $this->gender;
+        $user->city = $this->city;
+        return $user;
+    }
 }
