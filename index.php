@@ -19,3 +19,5 @@ if(!$db) {
 // ]);
 
 // $u->remove();
+
+// print User::getAge('1983-10-08');

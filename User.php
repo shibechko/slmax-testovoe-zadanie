@@ -53,4 +53,10 @@ class User {
         $q->execute([$this->id]);
     }
 
+    public static function getAge($birthday) {
+        $cur = time();
+        $bday = strtotime($birthday);
+        return (int) date("Y", $cur - $bday) - 1970;
+    }
+
 }
