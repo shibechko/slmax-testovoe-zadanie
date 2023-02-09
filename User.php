@@ -1,13 +1,18 @@
 <?php
+function validateDate($date, $format = 'Y-m-d'){
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) === $date;
+}
+
 
 class User {
     private $db = null;
-    public $id = null;
-    public $name;
-    public $surname;
-    public $birthday;
-    public $gender;
-    public $city;
+    private $id = null;
+    private $name;
+    private $surname;
+    private $birthday;
+    private $gender;
+    private $city;
 
     public function __construct(&$db, $data) {
         $this->db = $db;
@@ -26,12 +31,28 @@ class User {
         if(!$row = $q->fetch(PDO::FETCH_ASSOC)) {
             throw new Exception('User not found');
         } else {
+            $this->id = $id;
             $this->updateFromArray($row);
         }
     }
 
     private function updateFromArray($arr) {
-        foreach(array_keys($arr) as $key) {
+        $fields = array('name', 'surname', 'birthday', 'gender', 'city');
+        if(count(array_intersect($fields, array_keys($arr))) != 5)
+            throw new Exception("Not enough fields");
+
+        if (!filter_var($arr['name'], FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => "/^[A-Za-zА-Яа-я]/"))))
+            throw new Exception("Wrong name");
+        if (!filter_var($arr['surname'], FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => "/^[A-Za-zА-Яа-я]/"))))
+            throw new Exception("Wrong surname");
+        if (!filter_var($arr['birthday'], FILTER_CALLBACK, array('options' => "validateDate")))
+            throw new Exception("Wrong birthday");
+        if ($arr['gender'] < 0 || $arr['gender'] > 1)
+            throw new Exception("Wrong gender");
+        if (!filter_var($arr['city'], FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => "/^[A-Za-zА-Яа-я]/"))))
+            throw new Exception("Wrong city");
+                
+        foreach($fields as $key) {
             $this->{$key} = $arr[$key];
         }
     }

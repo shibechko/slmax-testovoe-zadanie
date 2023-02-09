@@ -15,11 +15,11 @@ if(!$db) {
 // var_dump( $u->format(age: True, gender:True) );
 
 // $u2 = new User($db, [
-//     'name' => "Name",
-//     'surname' => 'Surname',
-//     'birthday' => '1983-10-08',
-//     'gender' => 1,
-//     'city' => 'Minsk'
+//     'name' => "Olga",
+//     'surname' => 'Shibeko',
+//     'birthday' => '1986-08-25',
+//     'gender' => 0,
+//     'city' => 'Vitebsk'
 // ]);
 
 // $u->remove();
@@ -28,7 +28,10 @@ if(!$db) {
 
 // print User::getGender(0);
 
-$filters = [];
-$ur = new UserRepository($db, $filters);
-var_dump($ur->getUsers());
-var_dump($ur->delUsers());
+// $filters = [
+//     ['id', '>=', 2],
+//     ['gender', '>', 0]    
+// ];
+// $ur = new UserRepository($db, $filters);
+// var_dump($ur->getUsers());
+// var_dump($ur->delUsers());
